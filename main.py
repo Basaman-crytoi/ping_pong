@@ -1,18 +1,54 @@
 from pygame import *
 
-window = display.set_mode((900, 500))
+z = 900
+h = 600
+
+window = display.set_mode((z, h))
 display.set_caption("ping-pong")
-syba = transform.scale(image.load("ping_pong.png"), (900, 500))
+syba = transform.scale(image.load("ping_pong.png"), (z, h))
+
+
+class GameSprite(sprite.Sprite):
+    def __init__(self, paper, x, y, speed, wid=70, hei=70):
+        super().__init__()
+        self.image = transform.scale(image.load(paper), (wid, hei))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+        self.speed = speed
+
+    def blit(self):
+        window.blit(self.image, (self.rect.x, self.rect.y))
+
+
+class Player(GameSprite):
+    def update(self):
+        klavisha = key.get_pressed()
+        if klavisha[K_w] and self.rect.y > 0:
+            self.rect.y -= self.speed
+        if klavisha[K_s] and self.rect.y < h - 135:
+            print(self.rect.y)
+            self.rect.y += self.speed
+
+
+ball = GameSprite("ball.png", 200, 100, 10)
+player1 = Player("platform.png", 30, 70, 8, 45, 135)
+player2 = Player("platform.png", 300, 350, 8, 45, 135)
+
 
 run = True
 
 while run:
+    window.blit(syba, (0, 0))
     for e in event.get():
         if e.type == QUIT:
             run = False
-    window.blit(syba, (0, 0))
+    ball.blit()
+    ball.update()
+    player1.blit()
+    player1.update()
+    player2.blit()
+    player2.update()
+
     display.update()
-quit()
-
-
-    
+quit()    
