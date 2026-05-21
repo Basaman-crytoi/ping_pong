@@ -34,11 +34,11 @@ class Player(GameSprite):
 
 ball = GameSprite("ball.png", 200, 100, 10)
 player1 = Player("platform.png", 30, 70, 8, K_w, K_s, 45, 135)
-player2 = Player("platform.png", 300, 350, 8, K_UP, K_DOWN, 45, 135)
+player2 = Player("platform.png", 850, 350, 8, K_UP, K_DOWN, 45, 135)
 
 
 run = True
-dx = 2
+dx = 5
 dy = -10
 while run:
     window.blit(syba, (0, 0))
@@ -49,7 +49,10 @@ while run:
         dy *= -1
     ball.rect.x += dx
     ball.rect.y += dy
-
+    if sprite.collide_rect(ball, player2):
+        dx *= -1  
+    if sprite.collide_rect(ball, player1):
+        dx *= -1  
     ball.blit()
     ball.update()
     player1.blit()
