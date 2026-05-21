@@ -38,18 +38,23 @@ player2 = Player("platform.png", 300, 350, 8, K_UP, K_DOWN, 45, 135)
 
 
 run = True
-
+dx = 2
+dy = -10
 while run:
     window.blit(syba, (0, 0))
     for e in event.get():
         if e.type == QUIT:
             run = False
+    if ball.rect.y < 0 or ball.rect.y > 530:
+        dy *= -1
+    ball.rect.x += dx
+    ball.rect.y += dy
+
     ball.blit()
     ball.update()
     player1.blit()
     player1.update()
     player2.blit()
     player2.update()
-
     display.update()
-quit()    
+quit()
