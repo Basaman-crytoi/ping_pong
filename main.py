@@ -3,6 +3,12 @@ from pygame import *
 z = 900
 h = 600
 
+font.init()
+font = font.SysFont('Arial', 100)
+
+
+
+
 window = display.set_mode((z, h))
 display.set_caption("ping-pong")
 syba = transform.scale(image.load("ping_pong.png"), (z, h))
@@ -33,8 +39,8 @@ class Player(GameSprite):
 
 
 ball = GameSprite("ball.png", 200, 100, 10)
-player1 = Player("platform.png", 30, 70, 8, K_w, K_s, 45, 135)
-player2 = Player("platform.png", 850, 350, 8, K_UP, K_DOWN, 45, 135)
+player1 = Player("platform.png", 54, 250, 8, K_w, K_s, 45, 135)
+player2 = Player("platform.png", 800, 250, 8, K_UP, K_DOWN, 45, 135)
 
 
 run = True
@@ -53,6 +59,10 @@ while run:
         dx *= -1  
     if sprite.collide_rect(ball, player1):
         dx *= -1  
+    if ball.rect.x > 900:
+        window.blit(font.render("Игрок справа проиграл", 1, (145, 4, 4)), (150, 350))
+    if ball.rect.x < 0:
+        window.blit(font.render("Игрок слева проиграл", 1, (145, 4, 4)), (150, 350))
     ball.blit()
     ball.update()
     player1.blit()
